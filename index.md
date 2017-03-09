@@ -1,37 +1,46 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html lang="en" font="sans-serif">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script type="text/javascript" src="d3.js"></script>
+        <style media="screen" type="text/css">
+        html *
+            {
+               font-size: 24px !important;
+               font-family: sans-serif !important;
+               font-weight: bold !important;
+            }
 
-You can use the [editor on GitHub](https://github.com/helgasvala/socialdata/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/helgasvala/socialdata/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+        
+            var dataset = [ 5, 10, 15, 20, 25 ];
+            
+            d3.select("body").selectAll("p")
+                .data(dataset)
+                .enter()
+                .append("p")
+                .text(function(d) {
+                    return "I can count up to " + d;
+                })
+                .style("color", function(d) {
+                    if (d > 15) {   //Threshold of 15
+                        return "red";
+                    } else {
+                        return "black";
+                       }
+                });
+            
+        </script>
+        <svg width="500" height="200">
+            <rect x="0" y="72" width="80" height="80" fill="purple" stroke="gray" stroke-width="2" opacity="1.0"/>
+            <rect x="36" y="54" width="80" height="80" fill="blue" stroke="gray" stroke-width="2" opacity="0.83"/>
+            <rect x="72" y="36" width="80" height="80" fill="green" stroke="gray" stroke-width="2" opacity="0.66"/>
+            <rect x="108" y="18" width="80" height="80" fill="yellow" stroke="gray" stroke-width="2" opacity="0.49"/>
+            <rect x="144" y="0" width="80" height="80" fill="red" stroke="gray" stroke-width="2" opacity="0.32"/>
+        </svg>
+    </body>
+</html>
