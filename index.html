@@ -20,7 +20,6 @@
 			padding:6px 24px;
 			text-decoration:none;
 		}
-
 		.textContainer {
 			background-color: white;
 			-moz-border-radius:8px;
@@ -30,7 +29,6 @@
 			padding:6px 24px;
 			text-decoration:none;
 		}
-
 		</style>
 	</head>
 	<body><div>
@@ -69,23 +67,18 @@
 			
 		d3.csv("DataSF.csv", function(data) {
                 console.log(data);
-
             data.forEach(function(d) {
                  d.total03 = +d.total03;
                  d.vTheft03 = +d.vTheft03;
                  d.prost03= +d.prost03;
-
                  d.total15 = +d.total15;
                  d.vTheft15 = +d.vTheft15;
                  d.prost15= +d.prost15;
             });
-		
-	    var year='15'
               // Let´s define Width and height
             var w = 1000;
             var h = 700;
             var padding = 75; //staðsetur ásana
-
             var scaleR = d3.scale.linear()
                  .domain([0, d3.max(data, function(d) {return d['total15']/2+d['total03']/2;})])
                  .range([1,20]);
@@ -95,29 +88,20 @@
             var scaleY = d3.scale.linear()
                  .domain([0, d3.max(data, function(d) {return d['vTheft03']; })])
                  .range([h-padding, padding]);
-
               //Create SVG element
             var svg = d3.select(".viz1")
                 .append("svg")
                 .attr("width", w)
                 .attr("height", h);
-
             // Create axis function
             var xAxis = d3.svg.axis()
                 .scale(scaleX)
                 .orient("bottom")
                 .ticks(10);
-
             var yAxis = d3.svg.axis()
                 .scale(scaleY)
                 .orient("left")
                 .ticks(10);
-
-	    var inter = setInterval(function() {
-                createCircles(year);
-			}, 5000); 
-		data.push(createCircles(year))
-			
             function createCircles(year) {
              //Create the circles
                 svg.selectAll("circle")
@@ -134,7 +118,6 @@
                     .attr("r", function(d)  {return scaleR(d['total'+year]);}); 
 		    
 	    }
-
 		function createText(year) {
                        //Let´s load in the district to appear for each point
                 svg.selectAll("text")
@@ -150,27 +133,19 @@
                     .attr("y", function(d) {
                         return scaleY(d['vTheft'+year]);
                         })
-
                    .attr("font-family", "sans-serif")
                    .attr("font-size", "13px")
                    .attr("fill", "black");
                }
-
-
                 svg.append("text")      // text label for the x axis
                         .attr("x", w/2 )
                         .attr("y",  h-5 )
                         .style("text-anchor", "middle")
                         .text("Number of prostitution crimes");
-
-
-
                 svg.append("text")
                             .style("text-anchor", "middle")  
                             .attr("transform", "translate("+ (14) +","+(h/2)+")rotate(-90)") 
                             .text("Number of vehicle thefts");
-
-
                 //Let´s create the axis
                 //x-axis
              svg.append("g")
@@ -182,10 +157,7 @@
                 . attr("class", "axis")
                 . attr("transform", "translate(" + padding + ",0)")
                 .call(yAxis);
-
-
                 //let´s put label on the axis
-
                 d3.selectAll(".toggleButton").on("click", function(){
                 buttonID = d3.select(this).attr("id")
                 createCircles(buttonID)
@@ -193,8 +165,6 @@
                 console.log(buttonID)
                 // 
                 });
-
-
             });
 			//Width and height
 			var w = 700;
@@ -214,11 +184,9 @@
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h);
-
 			var sanFran = svg.append("g");
 			var locations = svg.append("g");
 			var centers = svg.append("g");
-
 			createBaseMap()           
 				
 			function createCenters(numK) {
@@ -242,7 +210,6 @@
 		       			.style("stroke-width", 3);
 					});
 			}
-
 			function createLocations(numK) {
 				locations.selectAll("circle").remove()
 				d3.csv("clusterLocationsColors.csv", function(dataLocations) {
@@ -263,7 +230,6 @@
 					   .style("opacity", 0.1);
 					});
 		}
-
 			function createBaseMap() {
 			   //Bind data and create one path per GeoJSON feature
 	           d3.json("https://raw.githubusercontent.com/suneman/socialdataanalysis2017/master/files/sfpddistricts.geojson", function(json){
@@ -276,7 +242,6 @@
 	                .attr('stroke-width',0.7)
 	                .attr('stroke',"#120A31")});
 	            }
-
 	            d3.selectAll(".centButton").on("click", function(){
 						buttonID = d3.select(this).attr("id")
 						createLocations(buttonID)
@@ -284,8 +249,6 @@
 						console.log(buttonID)
 						// 
 						});
-
-
 			
 		</script>
 	</body>
