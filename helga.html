@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: Adding data points (circles) to the map</title>
+		<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+		<style type="text/css">
+			button {
+			margin: 0 auto;
+			background-color:#EEF7D7;
+			-moz-border-radius:8px;
+			-webkit-border-radius:8px;
+			border-radius:8px;
+			border:1px solid #939788;
+			display:inline-block;
+			cursor:pointer;
+			color:#000000;
+			font-size:16px;
+			font-weight:bold;
+			padding:6px 24px;
+			text-decoration:none;
+		}
+
+		.textContainer {
+			background-color: white;
+			-moz-border-radius:8px;
+			color:#000000;
+			font-size:16px;
+			font-weight:bold;
+			padding:6px 24px;
+			text-decoration:none;
+		}
+
+		</style>
+	</head>
+	<body>
+		<div class="textContainer">
+		<p> Toggle between the buttons to see different numbers of clusters! </p>
+	</div>
+		<button id='2' class="centButton"> Two centers </button>
+		<button id='3' class="centButton"> Three centers </button>
+		<button id='4' class="centButton"> Four centers </button>
+		<button id='5' class="centButton"> Five centers </button>
+		<button id='6' class="centButton"> Six centers </button>
+		<script type="text/javascript">
+			//Width and height
+			var w = 700;
+			var h = 700;
+			//Define map projection
+            var projection = d3.geo.mercator()
+                .center([-122.41819474198758, 37.774145825475955])
+                .scale(200000)
+                .translate([w / 2, h / 2]);
+                
+			//Define path generator
+			var path = d3.geo.path()
+							 .projection(projection);
+							 
+			//Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			var sanFran = svg.append("g");
+			var locations = svg.append("g");
+			var centers = svg.append("g");
+
+			createBaseMap()           
+				
+			function createCenters(numK) {
+				centers.selectAll("circle").remove()
+				d3.csv("centers_colors.csv", function(dataCenters){
+					centers.selectAll("circle")
+						.data(dataCenters)
+						.enter()
+						.append("circle")
+						.attr("cx", function(d) {
+							return projection([+d['X_' + numK], +d['Y_' + numK]])[0];
+						})
+						.attr("cy", function(d) {
+							return projection([+d['X_' + numK], +d['Y_' + numK]])[1];
+						})
+						.attr("r", 10)
+						.style("fill", function(d) {
+					   	return d.centerColors;
+					   })
+						.style("stroke", "black")
+		       			.style("stroke-width", 3);
+					});
+			}
+
+			function createLocations(numK) {
+				locations.selectAll("circle").remove()
+				d3.csv("clusterLocationsColors.csv", function(dataLocations) {
+					locations.selectAll("circle")
+					   .data(dataLocations)
+					   .enter()
+					   .append("circle")
+					   .attr("cx", function(d) {
+						   return projection([d.lon, d.lat])[0];
+					   })
+					   .attr("cy", function(d) {
+						   return projection([d.lon, d.lat])[1];
+					   })
+					   .attr("r", 5)
+					   .style("fill", function(d) {
+					   	return d['kmeans' + numK];
+					   })
+					   .style("opacity", 0.1);
+					});
+		}
+
+			function createBaseMap() {
+			   //Bind data and create one path per GeoJSON feature
+	           d3.json("https://raw.githubusercontent.com/suneman/socialdataanalysis2017/master/files/sfpddistricts.geojson", function(json){
+	           	sanFran.selectAll("path")
+	                .data(json.features)
+	                .enter()
+	                .append("path")
+	                .attr("d", path)
+	                .style("fill", "#C5ECBF")
+	                .attr('stroke-width',0.7)
+	                .attr('stroke',"#120A31")});
+	            }
+
+	            d3.selectAll(".centButton").on("click", function(){
+						buttonID = d3.select(this).attr("id")
+						createLocations(buttonID)
+						createCenters(buttonID)
+						console.log(buttonID)
+						// 
+						});
+
+
+			
+		</script>
+	</body>
+</html>
