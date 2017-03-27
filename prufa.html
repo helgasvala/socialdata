@@ -103,7 +103,7 @@
                 
             }
 
-            function createText(year) {
+            //function createText(year) {
                        //Let´s load in the district to appear for each point
                 svg.selectAll("text")
                     .data(data)
@@ -113,10 +113,10 @@
                     return d['PdDistrict'];
                         })
                     .attr("x", function(d) {
-                        return scaleX(d['prost'+year]+22);
+                        return scaleX(d['prost03']+22);
                         })
                     .attr("y", function(d) {
-                        return scaleY(d['vTheft'+year]);
+                        return scaleY(d['vTheft03']);
                         })
 
                    .attr("font-family", "sans-serif")
