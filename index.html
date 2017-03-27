@@ -112,7 +112,11 @@
                 .orient("left")
                 .ticks(10);
 
-
+	    var inter = setInterval(function() {
+                createCircles(year);
+			}, 5000); 
+		data.push(createCircles(year))
+			
             function createCircles(year) {
              //Create the circles
                 svg.selectAll("circle")
