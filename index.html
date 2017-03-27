@@ -33,19 +33,31 @@
 
 		</style>
 	</head>
-	<body>
+	<body><div>
+            <div class="section">
+                    <h2> Assignment 2A: One scatter and two datasets </h2>
+                <div>
+                        <p2>The scatter plot below describes the total number of crime in Los Angeles with respect to prostitution and vehicle theft crime. The x-axis corresponds to the total number of prostitution incidents and the y-axis to the total number of vehicle theft incidents. The size of the circles on the plot are proportional to the total number of crime. When toggling between years 2003 and 2015, it's easy to see that the number of prostitution and vehicle theft crimes has decreased significantly from 2003, although the total number of crime in each area remains the same. We can see this by simply noting that the size of the circles....ADD MORE <br> </p2>
+               </div>
+                        <button id="03" class="toggleButton"> 2003 </button>
+        		<button id="15" class="toggleButton"> 2015 </button>
+             </div>
+
+        </div>
+		
+		
 		<div class="textContainer">
 		<h1> Assignment 2B: Visualizing geodata</h1>
 		<p> Here, crime data regarding prostitution in San Francisco is visualized using K-means clustering </p>
 		<h3> Toggle between the buttons to see different numbers of clusters! </h3>
-	</div>
-		<button id='2' class="centButton"> Two centers </button>
+			<button id='2' class="centButton"> Two centers </button>
 		<button id='3' class="centButton"> Three centers </button>
 		<button id='4' class="centButton"> Four centers </button>
 		<button id='5' class="centButton"> Five centers </button>
 		<button id='6' class="centButton"> Six centers </button>
-		<button id="03" class="toggleButton"> 2003 </button>
-        	<button id="15" class="toggleButton"> 2015 </button>
+	</div>
+		
+		
 		<script type="text/javascript">
 			
 		d3.csv("DataSF.csv", function(data) {
