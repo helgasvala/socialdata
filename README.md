@@ -4,7 +4,9 @@ Social Data Analysis 2017
 Assignment 2 git repository for the webpage : https://helgasvala.github.io
 
 #####################################################
+
 Assignment 2A: One scatter plot and two datasets
+
 ####################################################
 
 This part of the assignment was not as succesful as the second half. Hours of coding without success of running the transtiton smootly.
