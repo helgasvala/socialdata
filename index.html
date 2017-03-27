@@ -43,10 +43,11 @@
                         <button id="03" class="toggleButton"> 2003 </button>
         		<button id="15" class="toggleButton"> 2015 </button>
              </div>
+		<div class ="viz1 Viz"></div>
 
         </div>
 		
-		
+		<div>
 		<div class="textContainer">
 		<h1> Assignment 2B: Visualizing geodata</h1>
 		<p> Here, crime data regarding prostitution in San Francisco is visualized using K-means clustering </p>
@@ -56,6 +57,7 @@
 		<button id='4' class="centButton"> Four centers </button>
 		<button id='5' class="centButton"> Five centers </button>
 		<button id='6' class="centButton"> Six centers </button>
+			<div class="viz2 Viz2"></div>
 	</div>
 		
 		
@@ -90,7 +92,7 @@
                  .range([h-padding, padding]);
 
               //Create SVG element
-            var svg = d3.select("body")
+            var svg = d3.select(".viz1")
                 .append("svg")
                 .attr("width", w)
                 .attr("height", h);
@@ -196,7 +198,7 @@
 							 .projection(projection);
 							 
 			//Create SVG element
-			var svg = d3.select("body")
+			var svg = d3.select(".viz2")
 						.append("svg")
 						.attr("width", w)
 						.attr("height", h);
