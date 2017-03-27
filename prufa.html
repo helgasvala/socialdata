@@ -99,9 +99,11 @@
                     .attr("stroke-width", "5")
                     .attr("cx", function(d) {return scaleX(d['prost'+year]);})
                     .attr("cy", function(d) {return scaleY(d['vTheft'+year]);})
-                    .attr("r", function(d)  {return scaleR(d['total'+year]);});   
+                    .attr("r", function(d)  {return scaleR(d['total'+year]);}); 
+                
+            }
 
-
+            function createText(year) {
                        //Let´s load in the district to appear for each point
                 svg.selectAll("text")
                     .data(data)
@@ -155,6 +157,7 @@
                 d3.selectAll(".toggleButton").on("click", function(){
                 buttonID = d3.select(this).attr("id")
                 createCircles(buttonID)
+                createText(buttonID)
                 console.log(buttonID)
                 // 
                 });
