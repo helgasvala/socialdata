@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Assignment 2</title>
+		<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+		<style type="text/css">
+			button {
+			margin: 0 auto;
+			background-color:#EEF7D7;
+			-moz-border-radius:8px;
+			-webkit-border-radius:8px;
+			border-radius:8px;
+			border:1px solid #939788;
+			display:inline-block;
+			cursor:pointer;
+			color:#000000;
+			font-size:16px;
+			font-weight:bold;
+			padding:6px 24px;
+			text-decoration:none;
+		}
+
+		.textContainer {
+			background-color: white;
+			-moz-border-radius:8px;
+			color:#000000;
+			font-size:16px;
+			font-weight:bold;
+			padding:6px 24px;
+			text-decoration:none;
+		}
+
+		</style>
+	</head>
+	<body><div>
+            <div class="textContainer">
+                    <h1> Assignment 2A: One scatter and two datasets </h1>
+                <p>The scatter plot below describes the total number of crimes in San Francisco with respect to prostitution and vehicle theft crimes.
+				The x-axis corresponds to prostitution incidents and the y-axis to vehicle thefts. 
+				The circle sizes correspond to the number of crimes. We see that the number of crimes have decreased
+				on the period between 2003 and 2015, and it's good to use the same axis to see clearly the decrease.</p>
+                <button id="id03" class="toggleButton"> 2003 </button>
+        		<button id="id15" class="toggleButton"> 2015 </button>
+             </div>
+		<div class ="viz1 Viz"></div>
+
+        </div>
+		
+		<div>
+		<div class="textContainer">
+		<h1> Assignment 2B: Visualizing geodata</h1>
+		<p> Here, crime data regarding prostitution in San Francisco is visualized using K-means clustering </p>
+		<h3> Toggle between the buttons to see different numbers of clusters! </h3>
+			<button id='2' class="centButton"> Two centers </button>
+		<button id='3' class="centButton"> Three centers </button>
+		<button id='4' class="centButton"> Four centers </button>
+		<button id='5' class="centButton"> Five centers </button>
+		<button id='6' class="centButton"> Six centers </button>
+			<div class="viz2 Viz2"></div>
+	</div>
+		
+		
+		<script type="text/javascript">
+			
+		d3.csv("DataSFid.csv", function(data) {
+                console.log(data);
+
+            data.forEach(function(d) {
+                 d.total03 = +d.total03;
+                 d.vTheft03 = +d.vTheft03;
+                 d.prost03= +d.prost03;
+
+                 d.total15 = +d.total15;
+                 d.vTheft15 = +d.vTheft15;
+                 d.prost15= +d.prost15;
+            });
+
+              // Let´s define Width and height
+            var w = 1000;
+            var h = 700;
+            var padding = 75; //staðsetur ásana
+
+            var scaleR = d3.scale.linear()
+                 .domain([0, d3.max(data, function(d) {return d['total15']/2+d['total03']/2;})])
+                 .range([1,20]);
+            var scaleX = d3.scale.linear()
+                .domain([0, Math.max(d3.max(data, function(d) {return d['prost03']; }))])
+                .range([padding, w-padding * 2]);
+            var scaleY = d3.scale.linear()
+                 .domain([0, d3.max(data, function(d) {return d['vTheft03']; })])
+                 .range([h-padding, padding]);
+
+              //Create SVG element
+            var svg = d3.select(".viz1")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+            // Create axis function
+            var xAxis = d3.svg.axis()
+                .scale(scaleX)
+                .orient("bottom")
+                .ticks(10);
+
+            var yAxis = d3.svg.axis()
+                .scale(scaleY)
+                .orient("left")
+                .ticks(10);
+
+
+            function createCircles(year) {
+             //Create the circles
+                svg.selectAll("circle")
+                    .data(data)
+                    .enter()
+                    .append("circle")
+                    
+                    //Let´s load in the dots
+                    .attr("fill", "rgba(0, 255, 700, 0.75)")
+                    .attr("stroke", "rgba(0, 255, 0, 0.25)")
+                    .attr("stroke-width", "5")
+                    .attr("cx", function(d) {return scaleX(d['prost'+year]);})
+                    .attr("cy", function(d) {return scaleY(d['vTheft'+year]);})
+                    .attr("r", function(d)  {return scaleR(d['total'+year]);}); 
+		    
+	    }
+
+		function createText(year) {
+                       //Let´s load in the district to appear for each point
+                svg.selectAll("text")
+                    .data(data)
+                    .enter()
+                    .append("text")
+                    .text(function(d) {
+                    return d['PdDistrict'];
+                        })
+                    .attr("x", function(d) {
+                        return scaleX(d['prost'+year]+22);
+                        })
+                    .attr("y", function(d) {
+                        return scaleY(d['vTheft'+year]);
+                        })
+
+                   .attr("font-family", "sans-serif")
+                   .attr("font-size", "13px")
+                   .attr("fill", "black");
+               }
+
+
+                svg.append("text")      // text label for the x axis
+                        .attr("x", w/2 )
+                        .attr("y",  h-5 )
+                        .style("text-anchor", "middle")
+                        .text("Number of prostitution crimes");
+
+
+
+                svg.append("text")
+                            .style("text-anchor", "middle")  
+                            .attr("transform", "translate("+ (14) +","+(h/2)+")rotate(-90)") 
+                            .text("Number of vehicle thefts");
+
+
+                //Let´s create the axis
+                //x-axis
+             svg.append("g")
+                . attr("class", "axis")
+                . attr("transform", "translate(0," + (h-padding) + ")")
+                .call(xAxis);
+                //y-axis
+            svg.append("g")
+                . attr("class", "axis")
+                . attr("transform", "translate(" + padding + ",0)")
+                .call(yAxis);
+
+
+                //let´s put label on the axis
+
+                d3.selectAll(".toggleButton").on("click", function(){
+                buttonID = d3.select(this).attr("id")
+                createCircles(buttonID)
+		createText(buttonID)
+                console.log(buttonID)
+                // 
+                });
+
+
+            });
+			//Width and height
+			var w = 700;
+			var h = 700;
+			//Define map projection
+            var projection = d3.geo.mercator()
+                .center([-122.41819474198758, 37.774145825475955])
+                .scale(200000)
+                .translate([w / 2, h / 2]);
+                
+			//Define path generator
+			var path = d3.geo.path()
+							 .projection(projection);
+							 
+			//Create SVG element
+			var svg = d3.select(".viz2")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			var sanFran = svg.append("g");
+			var locations = svg.append("g");
+			var centers = svg.append("g");
+
+			createBaseMap()           
+				
+			function createCenters(numK) {
+				centers.selectAll("circle").remove()
+				d3.csv("centers_colors.csv", function(dataCenters){
+					centers.selectAll("circle")
+						.data(dataCenters)
+						.enter()
+						.append("circle")
+						.attr("cx", function(d) {
+							return projection([+d['X_' + numK], +d['Y_' + numK]])[0];
+						})
+						.attr("cy", function(d) {
+							return projection([+d['X_' + numK], +d['Y_' + numK]])[1];
+						})
+						.attr("r", 10)
+						.style("fill", function(d) {
+					   	return d.centerColors;
+					   })
+						.style("stroke", "black")
+		       			.style("stroke-width", 3);
+					});
+			}
+
+			function createLocations(numK) {
+				locations.selectAll("circle").remove()
+				d3.csv("clusterLocationsColors.csv", function(dataLocations) {
+					locations.selectAll("circle")
+					   .data(dataLocations)
+					   .enter()
+					   .append("circle")
+					   .attr("cx", function(d) {
+						   return projection([d.lon, d.lat])[0];
+					   })
+					   .attr("cy", function(d) {
+						   return projection([d.lon, d.lat])[1];
+					   })
+					   .attr("r", 5)
+					   .style("fill", function(d) {
+					   	return d['kmeans' + numK];
+					   })
+					   .style("opacity", 0.1);
+					});
+		}
+
+			function createBaseMap() {
+			   //Bind data and create one path per GeoJSON feature
+	           d3.json("https://raw.githubusercontent.com/suneman/socialdataanalysis2017/master/files/sfpddistricts.geojson", function(json){
+	           	sanFran.selectAll("path")
+	                .data(json.features)
+	                .enter()
+	                .append("path")
+	                .attr("d", path)
+	                .style("fill", "#C5ECBF")
+	                .attr('stroke-width',0.7)
+	                .attr('stroke',"#120A31")});
+	            }
+
+	            d3.selectAll(".centButton").on("click", function(){
+						buttonID = d3.select(this).attr("id")
+						createLocations(buttonID)
+						createCenters(buttonID)
+						console.log(buttonID)
+						// 
+						});
+
+
+			
+		</script>
+	</body>
+</html>
