@@ -63,9 +63,7 @@
 		
 		<script type="text/javascript">
 			
-		d3.csv("DataSFid.csv", function(data) {
-                console.log(data);
-
+	d3.csv("DataSFid.csv", function(data) {
             data.forEach(function(d) {
                  d.total03 = +d.total03;
                  d.vTheft03 = +d.vTheft03;
