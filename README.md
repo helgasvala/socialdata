@@ -1,7 +1,7 @@
 # socialdata
 Social Data Analysis 2017
 
-Assignment 2 git repository
+Assignment 2 git repository for the webpage : https://helgasvala.github.io
 
 #####################################################
 
