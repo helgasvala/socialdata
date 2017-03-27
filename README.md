@@ -9,7 +9,7 @@ Assignment 2A: One scatter plot and two datasets
 
 ####################################################
 
-This part of the assigment was not as succesful as the second half. Hours of coding without success of the running the transtiton smootly.
+This part of the assignment was not as succesful as the second half. Hours of coding without success of running the transtiton smootly.
 
 Therefore the refresh button was introduced. Other than this then the codes functionality is as expected.
 
