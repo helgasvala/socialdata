@@ -40,8 +40,8 @@
 				The x-axis corresponds to prostitution incidents and the y-axis to vehicle thefts. 
 				The circle sizes correspond to the number of crimes. We see that the number of crimes have decreased
 				on the period between 2003 and 2015, and it's good to use the same axis to see clearly the decrease.</p>
-                <button id="id03" class="toggleButton"> 2003 </button>
-        		<button id="id15" class="toggleButton"> 2015 </button>
+                <button id="03" class="toggleButton"> 2003 </button>
+        		<button id="15" class="toggleButton"> 2015 </button>
              </div>
 		<div class ="viz1 Viz"></div>
 
@@ -63,7 +63,9 @@
 		
 		<script type="text/javascript">
 			
-	d3.csv("DataSFid.csv", function(data) {
+		d3.csv("DataSF.csv", function(data) {
+                console.log(data);
+
             data.forEach(function(d) {
                  d.total03 = +d.total03;
                  d.vTheft03 = +d.vTheft03;
@@ -80,13 +82,13 @@
             var padding = 75; //staðsetur ásana
 
             var scaleR = d3.scale.linear()
-                 .domain([0, Math.max(d3.max(data, function(d) {return d['total15']/2+d['total03']/2;}))])
+                 .domain([0, d3.max(data, function(d) {return d['total15']/2+d['total03']/2;})])
                  .range([1,20]);
             var scaleX = d3.scale.linear()
                 .domain([0, Math.max(d3.max(data, function(d) {return d['prost03']; }))])
                 .range([padding, w-padding * 2]);
             var scaleY = d3.scale.linear()
-                 .domain([0, Math.max(d3.max(data, function(d) {return d['vTheft03']; }))])
+                 .domain([0, d3.max(data, function(d) {return d['vTheft03']; })])
                  .range([h-padding, padding]);
 
               //Create SVG element
